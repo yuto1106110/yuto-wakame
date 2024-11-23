@@ -36,6 +36,7 @@
 <nav id="side-menu" class="side-menu">
     <ul>
         <li><a href="/vi/<%= videoId %>/maxresdefault.jpg">サムネイルをダウンロード</a></li>
+        <li><a href="/wakameokini">お気に入りへ移動</a></li>
         <li><a href="/wakamehistory">再生履歴</a></li>
         <li><a href="/blog/up" target="_blank">アップデートを確認</a></li>
     </ul>
@@ -53,7 +54,7 @@
       </div>
   </div>
   <div class="toolcard-header">
-    <small class="text-muted"></small>
+    <small class="text-muted"><button class="favorite-btn" onclick="toggleFavorite('<%= videoId %>', '<%= channelId %>', '<%= channelName %>','<%= videoTitle %>')">お気に入り</button></small>
     <small class="text-muted float-right"><%- (videoViews || "").replace(/views/g, "回再生") %></small>
   </div>
   <div class="card-body">
@@ -61,12 +62,6 @@
       <p><%- (videoDes || "").replace(/\n/g, "<br>") %></p>
   </div>
 </div>
-  <div class="comment-box">
-    <h2>コメント</h2>
-    <div class="iframe-container">
-      <iframe src="/comment/<%= videoId %>" scrolling="yes"></iframe>
-    </div>
-  </div>
 <style>
 	* {
 		--plyr-color-main: #ff8181;
