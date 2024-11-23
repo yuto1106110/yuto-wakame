@@ -30,6 +30,55 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
+//ログイン
+// 読み込み時ちぇっく
+app.use((req, res, next) => {
+    if (req.cookies.massiropass !== 'ok' && !req.path.includes('login')) {
+        req.session.redirectTo = req.path !== '/' ? req.path : null;
+        return res.redirect('/login');
+    } else {
+        next();
+    }
+});
+//ログイン済み？
+app.get('/login/if', async (req, res) => {
+    if (req.cookies.massiropass !== 'ok') {
+        res.render('login', { error: 'ログインしていません。もう一度ログインして下さい' })
+    } else {
+        return res.redirect('/');
+    }
+});
+// ログインページ
+app.get('/login', (req, res) => {
+    res.render('login', { error: null });
+});
+// パスワード確認
+app.post('/login', (req, res) => {
+    const password = req.body.password;
+    if (password === 'wakame' || password === 'wakame02' || password === 'wakaran') {
+        res.cookie('massiropass', 'ok', { maxAge: 5 * 24 * 60 * 60 * 1000, httpOnly: true });
+        
+        const redirectTo = req.session.redirectTo || '/';
+        delete req.session.redirectTo;
+        return res.redirect(redirectTo);
+    } else {
+        if (password === 'ohana') {
+            return res.redirect('https://ohuaxiehui.webnode.jp');
+        } else {
+            res.render('login', { error: 'パスワードが間違っています。もう一度お試しください。' });
+        }
+    }
+});
+//パスワードを忘れた場合
+app.get('/login/forgot', (req, res) => {
+  res.render(`login/forgot.ejs`);
+});
+//ログアウト
+app.post('/logout', (req, res) => {
+    res.cookie('massiropass', 'false', { maxAge: 0, httpOnly: true });
+    return res.redirect('/login');
+});
+
 //レギュラー
 app.get('/w/:id', async (req, res) => {
   const videoId = req.params.id;
