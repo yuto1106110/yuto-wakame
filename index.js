@@ -17,6 +17,7 @@ const bodyParser = require('body-parser');
 const { URL } = require('url');
 const bcrypt = require('bcrypt');
 const http = require('http');
+const session = require('express-session');
 
 const limit = process.env.LIMIT || 50;
 
@@ -29,6 +30,13 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use(session({
+    secret: "wakameumaiyooooooooo",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 5 * 24 * 60 * 60 * 1000 }
+}));
 
 //ログイン
 // 読み込み時ちぇっく
@@ -88,11 +96,11 @@ app.get('/w/:id', async (req, res) => {
     res.redirect(`/umekomi/${videoId}`);
     }
     try {
-        const response = await axios.get(`https://watawatawata.glitch.me/api/${videoId}?token=wakameoishi`);
+        const response = await axios.get(`https://wataamee.glitch.me/api/${videoId}?token=wakameoishi`);
         const videoData = response.data;
         console.log(videoData);
 
-        res.render('infowatch', { videoData });
+        res.render('infowatch', { videoData, videoId });
   } catch (error) {
         res.status(500).render('matte', { 
       videoId, 
@@ -106,10 +114,10 @@ app.get('/w/:id', async (req, res) => {
 app.get('/www/:id', async (req, res) => {
   const videoId = req.params.id;
     try {
-        const response = await axios.get(`https://watawatawata.glitch.me/api/${videoId}?token=wakameoishi`);
+        const response = await axios.get(`https://wataamee.glitch.me/api/${videoId}?token=wakameoishi`);
         const videoData = response.data;
 
-        res.render('highquo', { videoData });
+        res.render('highquo', { videoData, videoId });
   } catch (error) {
         res.status(500).render('matte', { 
       videoId, 
@@ -124,10 +132,10 @@ app.get('/ll/:id', async (req, res) => {
   const videoId = req.params.id;
 
     try {
-        const response = await axios.get(`https://watawatawata.glitch.me/api/${videoId}?token=wakameoishi`);
+        const response = await axios.get(`https://wataamee.glitch.me/api/${videoId}?token=wakameoishi`);
         const videoData = response.data;
 
-        res.render('listen', { videoData });
+        res.render('listen', { videoData, videoId });
    } catch (error) {
         res.status(500).render('matte', { 
       videoId, 

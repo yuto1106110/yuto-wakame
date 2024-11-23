@@ -35,14 +35,14 @@
   </video>
   </div>
 <div class="card">
-  <div class="toolcard-header">
+   <div class="toolcard-header">
      <audio id="audio" controls>
-        <source src="<%= videoData.audioUrl %>">
+        <source src="<%= audioUrl %>">
     </audio>
     <button id="syncButton">オーディオの位置を動画に合わせる</button>
   </div>
   <div class="toolcard-header">
-    <small class="text-muted">ツール　　<button onclick="location.href='/ll/<%= videoData.videoId %>'">音のみで再生する</button></small>
+    <small class="text-muted">ツール　　<button id="reloadButton">動画を再読み込み</button></small>
   </div>
   <div class="card-channel">
     <a href="/c/<%= videoData.channelId %>">
@@ -60,6 +60,12 @@
       <p><%- (videoData.videoDes || "").replace(/\n/g, "<br>") %></p>
   </div>
 </div>
+  <div class="comment-box">
+    <h2>コメント</h2>
+    <div class="iframe-container">
+      <iframe src="/comment/<%= videoId %>" scrolling="yes"></iframe>
+    </div>
+  </div>
 <style>
 	* {
 		--plyr-color-main: #ff8181;
@@ -210,6 +216,14 @@ video {
             audio.pause();
             audio.currentTime = video.currentTime;
         });
+      
+  document.getElementById('reloadButton').addEventListener('click', function() {
+    const video = document.getElementById('video');
+    const audio = document.getElementById('audio');
+    
+    video.load();
+    audio.load();
+});
     </script>
   </body>
 </html>

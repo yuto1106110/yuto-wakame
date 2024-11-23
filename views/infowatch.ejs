@@ -45,7 +45,6 @@
         <li><a href="/ll/<%= videoData.videoId %>">音のみで再生する</a></li>
         <li><a href="/www/<%= videoData.videoId %>">高画質で再生する</a></li>
         <li><a href="/vi/<%= videoData.videoId %>/maxresdefault.jpg" target="_blank">サムネイルをダウンロード</a></li>
-        <li><a href="/wakameokini">お気に入りへ移動</a></li>
         <li><a href="/wakamehistory">再生履歴</a></li>
     </ul>
 </nav>
@@ -63,7 +62,7 @@
 <div class="card">
   <div class="toolcard-header">
     <small class="text-muted">「ツール」は右上に移動しました。</small>
-    <small class="text-muted float-right"><button class="favorite-btn" onclick="toggleFavorite('<%= videoData.videoId %>', '<%= videoData.channelId %>', '<%= videoData.channelName %>','<%= videoData.videoTitle %>')">お気に入り</button></small>
+    <small class="text-muted float-right"><button id="reloadButton">動画を再読み込み</button></small>
   </div>
   <div class="card-channel">
     <div class="container">
@@ -84,6 +83,12 @@
       <p><%- (videoData.videoDes || "").replace(/\n/g, "<br>") %></p>
   </div>
 </div>
+  <div class="comment-box">
+    <h2>コメント</h2>
+    <div class="iframe-container">
+      <iframe src="/comment/<%= videoId %>" scrolling="yes"></iframe>
+    </div>
+  </div>
    <style>
 	* {
 		--plyr-color-main: #ff8181;
@@ -403,6 +408,12 @@ function getFavoritesFromCookies() {
             $('form').submit();
         }
     });
+});
+  
+document.getElementById('reloadButton').addEventListener('click', function() {
+    const video = document.getElementById('wakameVideo');
+    
+    video.load();
 });
 </script>
 <scody>
