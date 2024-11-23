@@ -167,9 +167,29 @@ app.get('/umekomi/:id', async (req, res) => {
   }
 });
 
+app.get('/comment/:id', async (req, res) => {
+  const videoId = req.params.id;
+    try {
+        const response = await axios.get(`https://wakamecomment.glitch.me/api/wakame/${videoId}`);
+        const cm = response.data;
+
+        res.render('comment', { cm });
+   } catch (error) {
+        res.status(500).render('error', { 
+      videoId, 
+      error: 'コメントを取得できません', 
+      details: error.message 
+    });
+  }
+});
+
 // ホーム
 app.get("/", (req, res) => {
    res.sendFile(__dirname + "/views/index.html");
+});
+
+app.get('/st', (req, res) => {
+    res.sendStatus(200);
 });
 
 // サーチ
