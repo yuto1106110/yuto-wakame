@@ -42,7 +42,6 @@ app.use(session({
 // 読み込み時ちぇっく
 app.use((req, res, next) => {
     if (req.cookies.massiropass !== 'ok' && !req.path.includes('login')) {
-        req.session.redirectTo = req.path !== '/' ? req.path : null;
         return res.redirect('/login');
     } else {
         next();
@@ -65,10 +64,7 @@ app.post('/login', (req, res) => {
     const password = req.body.password;
     if (password === 'wakame' || password === 'wakame02' || password === 'wakaran') {
         res.cookie('massiropass', 'ok', { maxAge: 5 * 24 * 60 * 60 * 1000, httpOnly: true });
-        
-        const redirectTo = req.session.redirectTo || '/';
-        delete req.session.redirectTo;
-        return res.redirect(redirectTo);
+        return res.redirect('/');
     } else {
         if (password === 'ohana') {
             return res.redirect('https://ohuaxiehui.webnode.jp');
@@ -103,7 +99,6 @@ app.get('/w/:id', async (req, res) => {
         '4': 'https://productive-noon-van.glitch.me',
         '5': 'https://balsam-secret-fine.glitch.me',
     };
-
     let baseUrl;
     if (server === '0') {
         const randomIndex = Math.floor(Math.random() * serverUrls['0'].length);
