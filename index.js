@@ -219,7 +219,7 @@ app.get('/comment/:id', async (req, res) => {
 });
 
 // ホーム
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   try {
     const response = await axios.get(`https://wataamee.glitch.me/topvideos/apiv2`);
     const topVideos = response.data;
