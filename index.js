@@ -89,25 +89,57 @@ app.post('/logout', (req, res) => {
 
 //レギュラー
 app.get('/w/:id', async (req, res) => {
-  const videoId = req.params.id;
-    let cookies = parseCookies(req);
-    let wakames = cookies.wakametubeumekomi === 'true';
-    if (wakames) {
-    res.redirect(`/umekomi/${videoId}`);
+    const videoId = req.params.id;
+    const server = req.query.server || '0';
+    const serverUrls = {
+        '0': [
+        'https://battle-deciduous-bear.glitch.me',
+        'https://balsam-secret-fine.glitch.me',
+        'https://productive-noon-van.glitch.me',
+        ],
+        '1': 'https://wataamee.glitch.me',
+        '2': 'https://watawatawata.glitch.me',
+        '3': 'https://amenable-charm-lute.glitch.me',
+        '4': 'https://productive-noon-van.glitch.me',
+        '5': 'https://balsam-secret-fine.glitch.me',
+    };
+
+    let baseUrl;
+    if (server === '0') {
+        const randomIndex = Math.floor(Math.random() * serverUrls['0'].length);
+        baseUrl = serverUrls['0'][randomIndex];
+    } else {
+        baseUrl = serverUrls[server] || 'https://battle-deciduous-bear.glitch.me';
     }
+  
+    if (!/^[a-zA-Z0-9_-]{11}$/.test(videoId)) {
+        return res.status(400).send('videoIDが正しくありません');
+    }
+
+    const cookies = parseCookies(req);
+    const wakames = cookies.wakametubeumekomi === 'true';
+    if (wakames) {
+        return res.redirect(`/wkt/umekomi/${videoId}`);
+    }
+
     try {
-        const response = await axios.get(`https://wataamee.glitch.me/api/${videoId}?token=wakameoishi`);
+        const response = await axios.get(`${baseUrl}/api/${videoId}`, {
+            params: { token: process.env.WAKAME_API_TOKEN },
+        });
+
         const videoData = response.data;
         console.log(videoData);
 
         res.render('infowatch', { videoData, videoId });
-  } catch (error) {
-        res.status(500).render('matte', { 
-      videoId, 
-      error: '動画を取得できません', 
-      details: error.message 
-    });
-  }
+    } catch (error) {
+        console.error(`Failed to fetch video data: ${error.message}`, error.response?.data);
+
+        res.status(500).render('matte', {
+            videoId,
+            error: '動画を取得できません',
+            details: error.message,
+        });
+    }
 });
 
 //高画質再生！！
@@ -193,7 +225,14 @@ app.get('/comment/:id', async (req, res) => {
 
 // ホーム
 app.get("/", (req, res) => {
-   res.sendFile(__dirname + "/views/index.html");
+  try {
+    const response = await axios.get(`https://wataamee.glitch.me/topvideos/apiv2`);
+    const topVideos = response.data;
+    res.render("wakametube.ejs", { topVideos });
+  } catch (error) {
+    console.error('エラーが発生しました:', error);
+    res.status(500).send('データを取得できませんでした');
+  }
 });
 
 app.get('/st', (req, res) => {
