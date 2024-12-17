@@ -89,13 +89,13 @@ app.get('/w/:id', async (req, res) => {
     const server = req.query.server || '0';
     const serverUrls = {
         '0': [
-        'https://battle-deciduous-bear.glitch.me',
-        'https://balsam-secret-fine.glitch.me',
+        'https://amenable-charm-lute.glitch.me',
+        'https://battle-deciduous-bear.glitch',
         'https://productive-noon-van.glitch.me',
         ],
         '1': 'https://wataamee.glitch.me',
         '2': 'https://watawatawata.glitch.me',
-        '3': 'https://amenable-charm-lute.glitch.me',
+        '3': 'https://battle-deciduous-bear.glitch.me',
         '4': 'https://productive-noon-van.glitch.me',
         '5': 'https://balsam-secret-fine.glitch.me',
     };
@@ -118,9 +118,7 @@ app.get('/w/:id', async (req, res) => {
     }
 
     try {
-        const response = await axios.get(`${baseUrl}/api/${videoId}`, {
-            params: { token: process.env.WAKAME_API_TOKEN },
-        });
+        const response = await axios.get(`${baseUrl}/api/${videoId}`);
 
         const videoData = response.data;
         console.log(videoData);
