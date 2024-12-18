@@ -127,7 +127,7 @@ app.get('/w/:id', async (req, res) => {
 
         res.render('infowatch', { videoData, videoId, baseUrl });
   } catch (error) {
-        res.status(500).render('matte', { 
+        res.status(500).render('mattev', { 
       videoId, baseUrl,
       error: '動画を取得できません', 
       details: error.message 
