@@ -64,6 +64,9 @@
     <small class="text-muted">「ツール」は右上に移動しました。</small>
     <small class="text-muted float-right"><button id="reloadButton">動画を再読み込み</button></small>
   </div>
+  <div class="toolcard-header">
+    <small class="text-muted">利用したサーバー: <%= baseUrl.replace('https://', '').replace('.glitch.me', '') %></small>
+  </div>
   <div class="card-channel">
     <div class="container">
     <a href="/c/<%= videoData.channelId %>">
