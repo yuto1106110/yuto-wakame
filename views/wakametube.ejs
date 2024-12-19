@@ -25,7 +25,7 @@
   <header>
     <div class="banner">
       <button class="btn btn-link" onclick="window.location.href='/'">ホーム<br>🏠</button>
-      <button class="btn btn-link" onclick="window.location.href='/wkt/setting'">設定<br>⚙️</button>
+      <button class="btn btn-link" onclick="window.location.href='/setting'">設定<br>⚙️</button>
       <button class="btn btn-link" onclick="window.location.href='/send'">問い合わせ<br>✉️</button>
       <button class="btn btn-link" onclick="window.location.href='/wakams'">曲を聴く<br>🎶</button>
       <form action="/logout" method="post">
@@ -58,7 +58,7 @@
           <a href="/w/<%= videoId %>">
             <img loading="lazy" src="/vi/<%= videoId %>/mqdefault.jpg" alt="<%= videoTitle %>">
           </a>
-          <p class="channel-name"><a href="c/<%= channelId %>"><%= channelName %></a></p>
+          <p class="channel-name"><a href="/c/<%= channelId %>"><%= channelName %></a></p>
           <p class="video-title"><%= videoTitle %></p>
         </div>
    <% }); %>
