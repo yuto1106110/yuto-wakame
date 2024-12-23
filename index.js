@@ -90,16 +90,18 @@ app.get('/w/:id', async (req, res) => {
     const serverUrls = {
         '0': [
         'https://natural-voltaic-titanium.glitch.me',
-        'https://balsam-secret-fine.glitch.me',
+        'https://wtserver3.glitch.me',
         'https://wtserver1.glitch.me',
+        'https://wtserver2.glitch.me',
         ],
         '1': 'https://wataamee.glitch.me',
         '2': 'https://watawatawata.glitch.me',
         '3': 'https://amenable-charm-lute.glitch.me',
-        '4': 'https://productive-noon-van.glitch.me',
+        '4': 'https://wtserver2.glitch.me',
         '5': 'https://wtserver1.glitch.me',
         "6": "https://battle-deciduous-bear.glitch.me",
         "7": 'https://productive-noon-van.glitch.me',
+	"8": 'https://balsam-secret-fine.glitch.me',
     };
 
     let baseUrl;
@@ -231,6 +233,17 @@ app.get("/videores/:id", async (req, res) => {
       error: '関連動画を取得できません', 
       details: error.message 
     });
+  }
+});
+
+app.get("/difserver/:id", async (req, res) => {
+  let videoId = req.params.id || req.query.v;
+  try {
+    res.render("difserver.ejs", {
+      videoId: videoId
+    });
+  } catch (error) {
+    res.status(500).render('error');
   }
 });
 
