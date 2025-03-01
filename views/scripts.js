@@ -30,4 +30,4 @@ function hideCookieNotice() {
     setTimeout(() => {
         cookieNotice.style.display = 'none';
     }, 500);
-}[/code]
+}
