@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 [code] document.getElementById('accept-btn').addEventListener('click', function() {
     document.cookie = "yuki=True; max-age=31536000; path=/";
     location.href = "/";
